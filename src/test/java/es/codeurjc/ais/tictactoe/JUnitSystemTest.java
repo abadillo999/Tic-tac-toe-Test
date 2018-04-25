@@ -20,17 +20,29 @@ public class JUnitSystemTest {
 
 	static WebDriver driver1;
 	static WebDriver driver2;
+	
+	static void cellIterator(int[] iterable) {
+		for(int i = 0 ; i < iterable.length ; i++ ) {
+			if(i%2 == 0) {
+			driver1.findElement(By.id("cell-" + iterable[i])).click();
+			}else {
+			driver2.findElement(By.id("cell-" + iterable[i])).click();}
+		}
+		
+	}
 
 	@BeforeClass
-	public static void setupClass() {
+	public static void setupClass() throws Throwable {
 		ChromeDriverManager.getInstance().setup();
 		WebApp.start();
 		
 		//This setup is needed to exercise the SUT before launching the tests  
         driver1= new ChromeDriver();
         driver2= new ChromeDriver();
+        
+		HealthCheck.start(driver1, driver2);
 	
-        driver1.get("http://localhost:8080/");
+        /*driver1.get("http://localhost:8080/");
 		driver2.get("http://localhost:8080/");
 
 		String player1 = "player1";
@@ -56,16 +68,12 @@ public class JUnitSystemTest {
 
 			driver1.findElement(By.id("startBtn")).click();
 			driver2.findElement(By.id("startBtn")).click();
-			
-			driver1.findElement(By.id("cell-0")).click();
-			driver2.findElement(By.id("cell-1")).click();
-			driver1.findElement(By.id("cell-3")).click();
-			driver2.findElement(By.id("cell-2")).click();
-			driver1.findElement(By.id("cell-6")).click();
-			
+			int iterable []  =  {0,1,3,2,6};
+			cellIterator(iterable);
+
 			driver1.quit();
 			driver2.quit();
-			}
+			}*/
 	}
 	
 	@AfterClass
@@ -77,6 +85,18 @@ public class JUnitSystemTest {
 	public void setupTest() throws MalformedURLException {
         driver1= new ChromeDriver();
         driver2= new ChromeDriver();
+		
+		driver1.get("http://localhost:8080/");
+		driver2.get("http://localhost:8080/");
+
+		String player1 = "player1";
+		String player2 = "player2";
+
+		driver1.findElement(By.id("nickname")).sendKeys(player1);
+		driver2.findElement(By.id("nickname")).sendKeys(player2);
+
+		driver1.findElement(By.id("startBtn")).click();
+		driver2.findElement(By.id("startBtn")).click();
 	}
 
 	@After
@@ -91,24 +111,9 @@ public class JUnitSystemTest {
 
 	@Test
 	public void winPlayer1(){
-		
-		driver1.get("http://localhost:8080/");
-		driver2.get("http://localhost:8080/");
 
-		String player1 = "player1";
-		String player2 = "player2";
-
-		driver1.findElement(By.id("nickname")).sendKeys(player1);
-		driver2.findElement(By.id("nickname")).sendKeys(player2);
-
-		driver1.findElement(By.id("startBtn")).click();
-		driver2.findElement(By.id("startBtn")).click();
-		
-		driver1.findElement(By.id("cell-0")).click();
-		driver2.findElement(By.id("cell-1")).click();
-		driver1.findElement(By.id("cell-3")).click();
-		driver2.findElement(By.id("cell-2")).click();
-		driver1.findElement(By.id("cell-6")).click();
+		int iterable []  =  {0,1,3,2,6};
+		cellIterator(iterable);
 		
 		String msg1 = driver1.switchTo().alert().getText();
 		String msg2 = driver2.switchTo().alert().getText();
@@ -120,24 +125,8 @@ public class JUnitSystemTest {
 	@Test
 	public void winPlayer2(){
 		
-		driver1.get("http://localhost:8080/");
-		driver2.get("http://localhost:8080/");
-
-		String player1 = "player1";
-		String player2 = "player2";
-
-		driver1.findElement(By.id("nickname")).sendKeys(player1);
-		driver2.findElement(By.id("nickname")).sendKeys(player2);
-
-		driver1.findElement(By.id("startBtn")).click();
-		driver2.findElement(By.id("startBtn")).click();
-		
-		driver1.findElement(By.id("cell-0")).click();
-		driver2.findElement(By.id("cell-1")).click();
-		driver1.findElement(By.id("cell-3")).click();
-		driver2.findElement(By.id("cell-4")).click();
-		driver1.findElement(By.id("cell-5")).click();
-		driver2.findElement(By.id("cell-7")).click();
+		int iterable []  =  {0,1,3,4,5,7};
+		cellIterator(iterable);
 
 		String msg1 = driver1.switchTo().alert().getText();
 		String msg2 = driver2.switchTo().alert().getText();
@@ -150,27 +139,9 @@ public class JUnitSystemTest {
 	@Test
 	public void Draw(){
 		
-		driver1.get("http://localhost:8080/");
-		driver2.get("http://localhost:8080/");
+		int iterable []  =  {1,0,3,2,5,4,6,7,8};
+		cellIterator(iterable);
 
-		String player1 = "player1";
-		String player2 = "player2";
-
-		driver1.findElement(By.id("nickname")).sendKeys(player1);
-		driver2.findElement(By.id("nickname")).sendKeys(player2);
-
-		driver1.findElement(By.id("startBtn")).click();
-		driver2.findElement(By.id("startBtn")).click();
-		
-		driver1.findElement(By.id("cell-1")).click();
-		driver2.findElement(By.id("cell-0")).click();
-		driver1.findElement(By.id("cell-3")).click();
-		driver2.findElement(By.id("cell-2")).click();
-		driver1.findElement(By.id("cell-5")).click();
-		driver2.findElement(By.id("cell-4")).click();
-		driver1.findElement(By.id("cell-6")).click();
-		driver2.findElement(By.id("cell-7")).click();
-		driver1.findElement(By.id("cell-8")).click();
 
 		String msg1 = driver1.switchTo().alert().getText();
 		String msg2 = driver2.switchTo().alert().getText();

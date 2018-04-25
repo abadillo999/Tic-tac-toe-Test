@@ -8,7 +8,7 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		 plugin = {"pretty"}, 
-		 features = { "classpath:es/codeurjc/ais/tictactoe/calc.feature" },
+		 features = { "classpath:es/codeurjc/ais/tictactoe/WebApp.feature" },
 		 glue = {"es.codeurjc.ais.tictactoe" })
 
 public class CucumberSystemTest {
