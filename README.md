@@ -1,2 +1,2 @@
 # Tic-tac-toe-Test
-Test a Java WebApp with Mockito, JUnit, Hamcrest, Selenium
+Java WebApp Unit Test with doubles (Mockito, JUnit, Hamcrest) and System test (Selenium, Cucumber)
