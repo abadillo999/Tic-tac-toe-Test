@@ -6,7 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class HealthCheck {
-	static void start(WebDriver driver1,WebDriver driver2 ) throws Throwable {
+	static void start() throws Throwable {
+		ChromeDriver driver1 = new ChromeDriver();
+        ChromeDriver driver2 = new ChromeDriver();
 
         driver1.get("http://localhost:8080/");
 		driver2.get("http://localhost:8080/");

@@ -26,18 +26,17 @@ public class CucumberSystemTestAddings {
 	public void a_WebApp() throws Throwable {
 	    WebApp.start();
 		ChromeDriverManager.getInstance().setup();
-	    
-	    driver1= new ChromeDriver();
-        driver2= new ChromeDriver();
+		Thread.sleep(10000);
+
 	
-        HealthCheck.start(driver1, driver2);
+       HealthCheck.start();
         
 	}
 	
 
 
-	@Given("^a WebApp and two registered browser players$")
-	public void a_WebApp_and_two_registered_browser_players() throws Throwable {
+	@Given("^two registered browser players$")
+	public void two_registered_browser_players() throws Throwable {
 		
         driver1= new ChromeDriver();
         driver2= new ChromeDriver();
