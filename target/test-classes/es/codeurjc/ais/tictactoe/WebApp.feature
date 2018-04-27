@@ -2,9 +2,7 @@ Feature: WebApp
  
   I want to use the Tic-tac-toe game with 2 Chrome
   users.
-  
-  Background:
-    Given a WebApp
+
   
   Scenario: first player wins
 	    Given two registered browser players

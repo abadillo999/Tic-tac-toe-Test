@@ -22,19 +22,6 @@ public class CucumberSystemTestAddings {
 	private WebDriver driver1;
 	private WebDriver driver2;
 
-	@Given("^a WebApp$")
-	public void a_WebApp() throws Throwable {
-	    WebApp.start();
-		ChromeDriverManager.getInstance().setup();
-		Thread.sleep(10000);
-
-	
-       HealthCheck.start();
-        
-	}
-	
-
-
 	@Given("^two registered browser players$")
 	public void two_registered_browser_players() throws Throwable {
 		
@@ -64,6 +51,7 @@ public class CucumberSystemTestAddings {
 	
 	@Then("^I should receive the following message, in both browsers:\"([^\"]*)\"$")
 	public void i_should_receive_the_following_message_in_both_browsers(String arg1) throws Throwable {
+		//Thread.sleep(1000);
 
 		String msg1 = driver1.switchTo().alert().getText();
 		String msg2 = driver2.switchTo().alert().getText();

@@ -1,56 +1,32 @@
 package es.codeurjc.ais.tictactoe;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import static org.mockito.Matchers.*;
-
-import org.hamcrest.core.IsEqual;
+import static org.mockito.Mockito.*; 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
 
-import es.codeurjc.ais.tictactoe.TicTacToeGame.Cell;
-import es.codeurjc.ais.tictactoe.TicTacToeGame.CellMarkedValue;
 import es.codeurjc.ais.tictactoe.TicTacToeGame.EventType;
 import es.codeurjc.ais.tictactoe.TicTacToeGame.WinnerValue;
 
 
 
 public class TictactoeGameTest {
-	abstract class Players implements ArgumentMatcher<List<Player>> {
-
-	    public boolean matches(List<Player> list) {
-	    	//list.contains(player1, player2)
-	        return list.size() == 2;
-	    }
-	    public String toString() {
-	        //printed in verification errors
-	        return "[list of 2 elements]";
-	    }
-	}
 	
-	static TicTacToeGame game;
-	static Player player1;
-	static Player player2;
-	static Connection connection1;
-	static Connection connection2;
-	static WinnerValue winner;
+	private TicTacToeGame game;
+	private Player player1;
+	private Player player2;
+	private Connection connection1;
+	private Connection connection2;
+	private WinnerValue winner;
 
 	
 	@Before
 	public  void set() {
 		game = new TicTacToeGame();
-		player1 = new Player(0, "X", "player1");
-		player2 = new Player(1, "O", "player2");
-		
-		game.addPlayer(player1);
-		game.addPlayer(player2);
 		
 		connection1 = mock(Connection.class);
 		connection2 = mock(Connection.class);
@@ -58,7 +34,16 @@ public class TictactoeGameTest {
 		game.addConnection(connection1);
 		game.addConnection(connection2);
 		
+		player1 = new Player(0, "X", "player1");
+		player2 = new Player(1, "O", "player2");
+		
+		game.addPlayer(player1);
+		game.addPlayer(player2);
+		
 		winner  = new WinnerValue();
+		
+		verify(connection1, times(2)).sendEvent(eq(EventType.JOIN_GAME), any());
+		verify(connection2, times(2)).sendEvent(eq(EventType.JOIN_GAME), any());
 		
 		
 	
@@ -78,8 +63,8 @@ public class TictactoeGameTest {
 			verify(connection1, times(7)).sendEvent(eq(EventType.MARK),any());
 			verify(connection2, times(7)).sendEvent(eq(EventType.MARK),any());
 
-			verify(connection1, times(6)).sendEvent(eq(EventType.SET_TURN),any());
-			verify(connection2, times(6)).sendEvent(eq(EventType.SET_TURN),any());
+			verify(connection1, times(7)).sendEvent(eq(EventType.SET_TURN),any());
+			verify(connection2, times(7)).sendEvent(eq(EventType.SET_TURN),any());
 			
 			ArgumentCaptor<WinnerValue> argument = ArgumentCaptor.forClass(WinnerValue.class);
 			
@@ -115,8 +100,8 @@ public class TictactoeGameTest {
 			verify(connection1, times(6)).sendEvent(eq(EventType.MARK),any());
 			verify(connection2, times(6)).sendEvent(eq(EventType.MARK),any());
 
-			verify(connection1, times(5)).sendEvent(eq(EventType.SET_TURN),any());
-			verify(connection2, times(5)).sendEvent(eq(EventType.SET_TURN),any());
+			verify(connection1, times(6)).sendEvent(eq(EventType.SET_TURN),any());
+			verify(connection2, times(6)).sendEvent(eq(EventType.SET_TURN),any());
 			
 			ArgumentCaptor<WinnerValue> argument = ArgumentCaptor.forClass(WinnerValue.class);
 			
@@ -138,7 +123,7 @@ public class TictactoeGameTest {
 
 	@Test
 	public void draw() {
-			
+		
 			int match [] = {1,0,3,2,5,4,6,7,8};
 			
 			for (int n= 0; n <= 8; n++) {
@@ -151,8 +136,8 @@ public class TictactoeGameTest {
 			verify(connection1, times(9)).sendEvent(eq(EventType.MARK),any());
 			verify(connection2, times(9)).sendEvent(eq(EventType.MARK),any());
 
-			verify(connection1, times(8)).sendEvent(eq(EventType.SET_TURN),any());
-			verify(connection2, times(8)).sendEvent(eq(EventType.SET_TURN),any());
+			verify(connection1, times(9)).sendEvent(eq(EventType.SET_TURN),any());
+			verify(connection2, times(9)).sendEvent(eq(EventType.SET_TURN),any());
 			
 			
 			verify(connection1).sendEvent(eq(EventType.GAME_OVER), eq(null));
